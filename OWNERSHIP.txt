@@ -1,0 +1,15 @@
+Tech lead only (do not edit without lead):
+  OrbitApp.swift, AuthGate.swift, MainTabView.swift, AppEnvironment.swift,
+  AppConfig.swift, OrbitError.swift
+  OrbitApp/Models/*
+  OrbitApp/Repositories/*Repository.swift
+  OrbitApp/Repositories/JSONCoding.swift
+  OrbitApp/Repositories/Live/*
+  OrbitApp/DesignSystem/*
+  OrbitApp/Info.plist
+  Config/*, project.yml, Orbit.xcodeproj, Secrets.example.xcconfig, .gitignore
+  supabase/migrations/*, supabase/seed.sql, supabase/types/domain.ts
+
+Dev A: OrbitApp/Auth/*, ProfileView account/sign-out (shared with C on registrations list)
+Dev B: OrbitApp/Feed/*, OrbitApp/EventDetail/*
+Dev C: OrbitApp/Saved/*, CreateEvent/*, AdminReview/*, register/save writes
