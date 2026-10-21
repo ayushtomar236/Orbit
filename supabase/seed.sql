@@ -1,12 +1,10 @@
--- Hosted Supabase: create these users in Authentication > Users, then run the role updates.
--- Local supabase db reset: this file cannot insert auth.users on hosted projects.
+-- Run only after you have created the three demo users in the Supabase dashboard
+-- (Authentication → Users). Choose passwords locally; do not put them in git.
 --
--- Seed accounts (password: OrbitDemo1!):
---   student@orbit.app    role student
---   organizer@orbit.app  role organizer
---   admin@orbit.app      role admin
---
--- After the three users exist (sign-up or dashboard), promote organizer/admin:
+-- Expected emails (roles applied below):
+--   student@orbit.app    → student
+--   organizer@orbit.app  → organizer
+--   admin@orbit.app      → admin
 
 update public.profiles
 set role = 'organizer', full_name = 'Riley Organizer'

@@ -3,7 +3,7 @@ TARGETED_DEVICE_FAMILY = 1
 PRODUCT_BUNDLE_IDENTIFIER = com.orbit.app
 PRODUCT_NAME = Orbit
 SWIFT_VERSION = 5.0
-SUPABASE_URL = https://placeholder.supabase.co
-SUPABASE_ANON_KEY = placeholder-key-placeholder-key-placeholder
+SUPABASE_URL = UNSET
+SUPABASE_ANON_KEY = UNSET
 
 #include? "../Secrets.xcconfig"

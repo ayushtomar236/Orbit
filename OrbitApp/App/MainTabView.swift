@@ -9,34 +9,24 @@ struct MainTabView: View {
 
     var body: some View {
         TabView {
-            NavigationStack {
-                FeedView()
-            }
-            .tabItem { Label("Feed", systemImage: "list.bullet") }
-
-            NavigationStack {
-                SavedEventsView()
-            }
-            .tabItem { Label("Saved", systemImage: "bookmark") }
-
-            if role == .organizer || role == .admin {
+            ForEach(AppTab.allCases.filter { $0.isVisible(for: role) }) { tab in
                 NavigationStack {
-                    CreateEventView()
+                    tabRoot(tab)
                 }
-                .tabItem { Label("Create", systemImage: "plus.circle") }
+                .tabItem { Label(tab.title, systemImage: tab.systemImage) }
             }
+        }
+        .tint(OrbitColors.accent)
+    }
 
-            if role == .admin {
-                NavigationStack {
-                    AdminReviewView()
-                }
-                .tabItem { Label("Review", systemImage: "checkmark.shield") }
-            }
-
-            NavigationStack {
-                ProfileView()
-            }
-            .tabItem { Label("Profile", systemImage: "person") }
+    @ViewBuilder
+    private func tabRoot(_ tab: AppTab) -> some View {
+        switch tab {
+        case .feed: FeedView()
+        case .saved: SavedEventsView()
+        case .create: CreateEventView()
+        case .review: AdminReviewView()
+        case .profile: ProfileView()
         }
     }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Owner: Dev A (profile fields) / Dev C (registration list).
+/// Account chrome is foundation. Registration list is Dev C — not implemented here.
 struct ProfileView: View {
     @Environment(AppEnvironment.self) private var environment
 
@@ -8,7 +8,7 @@ struct ProfileView: View {
         List {
             Section("Account") {
                 Text(environment.profile?.fullName ?? "Unknown")
-                Text(environment.profile?.role.rawValue ?? "student")
+                Text(environment.profile?.role.title ?? UserRole.student.title)
                 Text(environment.profile?.campus ?? "")
             }
             Section {
@@ -16,8 +16,9 @@ struct ProfileView: View {
                     Task { await environment.signedOut() }
                 }
             }
-            Section("TODO") {
-                Text("Dev C: list EventRepository.myRegistrations().")
+            Section("Registered events") {
+                Text("Dev C: EventRepository.myRegistrations().")
+                    .foregroundStyle(OrbitColors.secondaryText)
             }
         }
         .navigationTitle("Profile")

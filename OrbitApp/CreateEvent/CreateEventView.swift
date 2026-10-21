@@ -1,12 +1,12 @@
 import SwiftUI
 
-/// Owner: Dev C (or whoever finishes Auth first).
+/// Owner: Dev C. Not implemented in foundation.
 struct CreateEventView: View {
     var body: some View {
-        ContentUnavailableView(
-            "Create event",
+        OrbitPlaceholder(
+            title: "Create event",
             systemImage: "plus.circle",
-            description: Text("EventRepository.create(_:posterJPEG:). Poster path {userId}/{eventId}.jpg")
+            message: "Dev C: EventRepository.create(_:posterJPEG:). Path {userId}/{eventId}.jpg (lowercase UUIDs)."
         )
         .navigationTitle("Create")
     }

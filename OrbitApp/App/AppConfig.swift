@@ -12,9 +12,11 @@ enum AppConfig {
         let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard
             !trimmed.isEmpty,
+            trimmed != "UNSET",
             !trimmed.contains("YOUR_PROJECT"),
             !trimmed.contains("placeholder"),
-            let url = URL(string: trimmed)
+            let url = URL(string: trimmed),
+            url.scheme == "https"
         else { return nil }
         return url
     }
@@ -24,7 +26,12 @@ enum AppConfig {
             let key = Bundle.main.object(forInfoDictionaryKey: "SUPABASE_ANON_KEY") as? String
         else { return nil }
         let trimmed = key.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard trimmed.count > 20, !trimmed.contains("your-anon-key"), !trimmed.contains("placeholder") else {
+        guard
+            trimmed.count > 20,
+            trimmed != "UNSET",
+            !trimmed.contains("your-anon-key"),
+            !trimmed.contains("placeholder")
+        else {
             return nil
         }
         return trimmed

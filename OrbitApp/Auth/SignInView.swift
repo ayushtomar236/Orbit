@@ -1,13 +1,13 @@
 import SwiftUI
 
-/// Owner: Dev A. Wire to AuthRepository. Sign-up lives in SignUpView.
+/// Owner: Dev A. Not implemented in foundation.
 struct SignInView: View {
     var body: some View {
         NavigationStack {
-            ContentUnavailableView(
-                "Sign in",
+            OrbitPlaceholder(
+                title: "Sign in",
                 systemImage: "person.crop.circle.badge.plus",
-                description: Text("Dev A: implement email/password against AuthRepository.")
+                message: "Dev A: email and password via AuthRepository.signIn, then AppEnvironment.signedIn()."
             )
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
