@@ -33,8 +33,23 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         TARGETED_DEVICE_FAMILY: 1
         SUPPORTS_MACCATALYST: false
+        ENABLE_TESTABILITY: YES
     dependencies:
       - package: supabase-swift
         product: Supabase
     scheme:
-      testTargets: []
+      testTargets:
+        - OrbitTests
+  OrbitTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: OrbitTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.orbit.app.tests
+        GENERATE_INFOPLIST_FILE: true
+        IPHONEOS_DEPLOYMENT_TARGET: 17.0
+        TARGETED_DEVICE_FAMILY: 1
+    dependencies:
+      - target: Orbit
