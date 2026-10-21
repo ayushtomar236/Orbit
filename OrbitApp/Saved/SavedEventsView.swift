@@ -1,12 +1,12 @@
 import SwiftUI
 
-/// Owner: Dev C (writes) / Dev B (list UI if split).
+/// Owner: Dev C. Not implemented in foundation.
 struct SavedEventsView: View {
     var body: some View {
-        ContentUnavailableView(
-            "Saved events",
+        OrbitPlaceholder(
+            title: "Saved events",
             systemImage: "bookmark",
-            description: Text("Use EventRepository.mySaved().")
+            message: "Dev C: EventRepository.mySaved()."
         )
         .navigationTitle("Saved")
     }

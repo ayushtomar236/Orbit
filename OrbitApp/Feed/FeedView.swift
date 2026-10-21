@@ -1,12 +1,12 @@
 import SwiftUI
 
-/// Owner: Dev B. Call EventRepository.approvedFeed(); push EventDetailView.
+/// Owner: Dev B. Not implemented in foundation.
 struct FeedView: View {
     var body: some View {
-        ContentUnavailableView(
-            "Campus feed",
+        OrbitPlaceholder(
+            title: "Campus feed",
             systemImage: "list.bullet.rectangle",
-            description: Text("Dev B: list approved events only.")
+            message: "Dev B: EventRepository.approvedFeed() only. Push EventDetailView(eventId:)."
         )
         .navigationTitle("Feed")
     }

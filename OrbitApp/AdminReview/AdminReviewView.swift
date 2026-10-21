@@ -1,12 +1,12 @@
 import SwiftUI
 
-/// Owner: Dev C / first-done after Create.
+/// Owner: Dev C. Not implemented in foundation.
 struct AdminReviewView: View {
     var body: some View {
-        ContentUnavailableView(
-            "Review",
+        OrbitPlaceholder(
+            title: "Review",
             systemImage: "checkmark.shield",
-            description: Text("EventRepository.pendingForReview() then setStatus approved/rejected.")
+            message: "Dev C: pendingForReview() then setStatus approved or rejected."
         )
         .navigationTitle("Review")
     }

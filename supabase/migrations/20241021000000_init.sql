@@ -1,4 +1,9 @@
 -- Orbit MVP schema, RLS, storage. Tech lead only.
+--
+-- Permissions (enforced here, not only in the iOS UI):
+-- student    read approved events; register/save own rows; update own name/campus; cannot change role
+-- organizer  student + insert pending events as self; update own pending events; upload posters under {uid}/
+-- admin      all of the above + read pending/rejected; approve/reject any event; delete posters
 
 create type public.user_role as enum ('student', 'organizer', 'admin');
 create type public.event_status as enum ('pending', 'approved', 'rejected');

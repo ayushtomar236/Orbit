@@ -1,12 +1,12 @@
 import SwiftUI
 
-/// Owner: Dev A.
+/// Owner: Dev A. Not implemented in foundation.
 struct SignUpView: View {
     var body: some View {
-        ContentUnavailableView(
-            "Sign up",
+        OrbitPlaceholder(
+            title: "Sign up",
             systemImage: "pencil",
-            description: Text("Dev A: full name, email, password → AuthRepository.signUp.")
+            message: "Dev A: full name, email, password → AuthRepository.signUp. New users are always student."
         )
         .navigationTitle("Sign up")
     }

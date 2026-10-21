@@ -1,14 +1,14 @@
 import SwiftUI
 
-/// Owner: Dev B for layout. Register/save buttons call EventRepository (Dev C writes).
+/// Owner: Dev B (layout) / Dev C (register + save). Not implemented in foundation.
 struct EventDetailView: View {
     let eventId: UUID
 
     var body: some View {
-        ContentUnavailableView(
-            "Event",
+        OrbitPlaceholder(
+            title: "Event",
             systemImage: "calendar",
-            description: Text("Dev B: load EventRepository.event(id: \(eventId.uuidString)). Dev C: register/save.")
+            message: "Dev B: EventRepository.event(id:). Dev C: register/save. id=\(eventId.uuidString)"
         )
         .navigationTitle("Event")
     }

@@ -3,17 +3,18 @@ import SwiftUI
 struct OrbitButton: View {
     let title: String
     var enabled: Bool = true
+    var role: ButtonRole? = nil
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button(role: role, action: action) {
             Text(title)
-                .font(.headline)
+                .font(OrbitType.headline)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 12)
+                .padding(.vertical, OrbitSpacing.sm + 4)
         }
         .buttonStyle(.borderedProminent)
-        .tint(OrbitColors.accent)
+        .tint(role == .destructive ? OrbitColors.danger : OrbitColors.accent)
         .disabled(!enabled)
     }
 }
