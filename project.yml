@@ -11,7 +11,7 @@ configFiles:
 packages:
   supabase-swift:
     url: https://github.com/supabase/supabase-swift
-    majorVersion: 2
+    from: 2.5.0
 settings:
   base:
     IPHONEOS_DEPLOYMENT_TARGET: 17.0

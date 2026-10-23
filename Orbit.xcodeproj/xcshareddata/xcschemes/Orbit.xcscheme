@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1600"
-   version = "1.7">
+   LastUpgradeVersion = "2710"
+   version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TG0000000000000000000001"
+               BlueprintIdentifier = "B87EF018B641D85E34ED2D32"
                BuildableName = "Orbit.app"
                BlueprintName = "Orbit"
                ReferencedContainer = "container:Orbit.xcodeproj">
@@ -26,8 +26,29 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B87EF018B641D85E34ED2D32"
+            BuildableName = "Orbit.app"
+            BlueprintName = "Orbit"
+            ReferencedContainer = "container:Orbit.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "70B3C73F363EEF5E0AD67831"
+               BuildableName = "Orbit.xctest"
+               BlueprintName = "OrbitTests"
+               ReferencedContainer = "container:Orbit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -43,7 +64,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "TG0000000000000000000001"
+            BlueprintIdentifier = "B87EF018B641D85E34ED2D32"
             BuildableName = "Orbit.app"
             BlueprintName = "Orbit"
             ReferencedContainer = "container:Orbit.xcodeproj">
@@ -60,7 +81,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "TG0000000000000000000001"
+            BlueprintIdentifier = "B87EF018B641D85E34ED2D32"
             BuildableName = "Orbit.app"
             BlueprintName = "Orbit"
             ReferencedContainer = "container:Orbit.xcodeproj">
