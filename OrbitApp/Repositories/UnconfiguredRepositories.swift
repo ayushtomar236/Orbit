@@ -5,7 +5,7 @@ struct UnconfiguredAuthRepository: AuthRepository {
         throw Self.missingConfig
     }
 
-    func signUp(fullName: String, email: String, password: String) async throws {
+    func signUp(fullName: String, email: String, password: String) async throws -> SignUpResult {
         throw Self.missingConfig
     }
 
@@ -13,10 +13,17 @@ struct UnconfiguredAuthRepository: AuthRepository {
 
     func hasSession() async throws -> Bool { false }
 
+    func sessionChanges() -> AsyncStream<Bool> {
+        AsyncStream { continuation in
+            continuation.yield(false)
+            continuation.finish()
+        }
+    }
+
     var currentUserId: UUID? { get async { nil } }
 
     private static let missingConfig = OrbitError.unknown(
-        "Copy Secrets.example.xcconfig to Secrets.xcconfig and add your Supabase URL and anon key."
+        "Set your full Supabase project URL and anon or publishable client key in Secrets.xcconfig. Never use a service_role or sb_secret key in the app."
     )
 }
 

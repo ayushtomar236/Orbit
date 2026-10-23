@@ -11,6 +11,9 @@ final class AppEnvironment {
     var profile: Profile?
     var isSessionReady = false
     var isSignedIn = false
+    var sessionError: String?
+
+    @ObservationIgnored private var authObservationTask: Task<Void, Never>?
 
     init(
         auth: AuthRepository? = nil,
@@ -30,36 +33,67 @@ final class AppEnvironment {
     }
 
     @MainActor
-    func restoreSession() async {
+    func startSessionObservation() {
         guard isConfigured else {
             isSessionReady = true
             return
         }
-        do {
-            if try await auth.hasSession() {
-                profile = try await profiles.currentProfile()
-                isSignedIn = true
-            } else {
-                profile = nil
-                isSignedIn = false
+        guard authObservationTask == nil else { return }
+
+        authObservationTask = Task { [weak self] in
+            guard let self else { return }
+            for await hasSession in auth.sessionChanges() {
+                await applySessionState(hasSession)
             }
-        } catch {
-            profile = nil
-            isSignedIn = false
         }
-        isSessionReady = true
     }
 
     @MainActor
     func signedIn() async throws {
         profile = try await profiles.currentProfile()
+        sessionError = nil
         isSignedIn = true
+        isSessionReady = true
     }
 
     @MainActor
-    func signedOut() async {
-        try? await auth.signOut()
+    func signedOut() async throws {
+        try await auth.signOut()
         profile = nil
+        sessionError = nil
         isSignedIn = false
+        isSessionReady = true
+    }
+
+    @MainActor
+    func retryProfileLoad() async {
+        do {
+            try await signedIn()
+        } catch {
+            profile = nil
+            isSignedIn = false
+            sessionError = error.localizedDescription
+            isSessionReady = true
+        }
+    }
+
+    @MainActor
+    private func applySessionState(_ hasSession: Bool) async {
+        guard hasSession else {
+            profile = nil
+            sessionError = nil
+            isSignedIn = false
+            isSessionReady = true
+            return
+        }
+
+        do {
+            try await signedIn()
+        } catch {
+            profile = nil
+            sessionError = error.localizedDescription
+            isSignedIn = false
+        }
+        isSessionReady = true
     }
 }
