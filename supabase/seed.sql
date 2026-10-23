@@ -1,18 +1,15 @@
--- Run only after you have created the three demo users in the Supabase dashboard
--- (Authentication → Users). Choose passwords locally; do not put them in git.
+-- Optional local/demo data only. Create accounts through Supabase Auth first
+-- and choose passwords locally; do not put credentials in git.
+-- This script does not create or promote an administrator. See SETUP.md for
+-- trusted admin bootstrap using a verified auth user UUID and email.
 --
--- Expected emails (roles applied below):
+-- Expected demo accounts:
 --   student@orbit.app    → student
---   organizer@orbit.app  → organizer
---   admin@orbit.app      → admin
+--   organizer@orbit.app → organizer
 
 update public.profiles
 set role = 'organizer', full_name = 'Riley Organizer'
 where id = (select id from auth.users where email = 'organizer@orbit.app');
-
-update public.profiles
-set role = 'admin', full_name = 'Avery Admin'
-where id = (select id from auth.users where email = 'admin@orbit.app');
 
 update public.profiles
 set full_name = 'Alex Student'

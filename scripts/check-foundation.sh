@@ -30,9 +30,12 @@ need_file "OrbitApp/Repositories/AuthRepository.swift"
 need_file "OrbitApp/Repositories/EventRepository.swift"
 need_file "OrbitApp/Repositories/ProfileRepository.swift"
 need_file "OrbitApp/Repositories/Live/SupabaseFactory.swift"
+need_file "OrbitApp/Repositories/Live/LiveAuthRepository.swift"
+need_file "OrbitApp/Repositories/Live/LiveProfileRepository.swift"
 need_file "OrbitApp/Models/Event.swift"
 need_file "OrbitApp/Models/Profile.swift"
 need_file "supabase/migrations/20241021000000_init.sql"
+need_file "supabase/migrations/20261022000000_auth_profile_bootstrap.sql"
 need_file "supabase/seed.sql"
 need_file "supabase/types/domain.ts"
 need_file "Secrets.example.xcconfig"
@@ -58,6 +61,39 @@ for example in Secrets.example.xcconfig .env.example; do
   fi
 done
 
+auth_sql="$root/supabase/migrations/20261022000000_auth_profile_bootstrap.sql"
+for rule in \
+  "grant update (full_name, campus)" \
+  "grant insert (id, full_name, campus)" \
+  "profiles_insert_self_student" \
+  "id = auth.uid() and role = 'student'" \
+  "organizer_id = auth.uid() and status = 'pending'" \
+  "public.is_admin()"; do
+  if grep -Fq "$rule" "$auth_sql"; then ok "auth policy $rule"
+  else bad "auth migration missing $rule"
+  fi
+done
+
+if grep -Eq "set role = 'admin'|role = 'admin'" "$root/supabase/seed.sql"; then
+  bad "seed.sql must not bootstrap an administrator"
+else
+  ok "seed.sql does not bootstrap an administrator"
+fi
+
+if grep -Fq 'sessionChanges()' "$root/OrbitApp/Repositories/Live/LiveAuthRepository.swift" \
+  && grep -Fq 'environment.isSignedIn' "$root/OrbitApp/App/AuthGate.swift"; then
+  ok "auth session changes and protected app gate are wired"
+else
+  bad "auth session observation or protected app gate is missing"
+fi
+
+if grep -Fq 'password.count >= 8' "$root/OrbitApp/Auth/SignUpView.swift" \
+  && grep -Fq 'accountAlreadyExists' "$root/OrbitApp/Auth/SignUpView.swift"; then
+  ok "signup validates password and handles duplicate accounts"
+else
+  bad "signup validation or duplicate-account handling is missing"
+fi
+
 sql="$root/supabase/migrations/20241021000000_init.sql"
 for table in profiles events event_registrations saved_events; do
   if grep -q "create table public.${table}" "$sql"; then ok "schema table ${table}"
@@ -80,15 +116,20 @@ for role in student organizer admin; do
   fi
 done
 
-if grep -R --exclude-dir=.git --exclude-dir=DerivedData --exclude='check-foundation.sh' \
-  -E 'sb_publishable_|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]+\.' "$root" >/dev/null; then
+if grep -R --exclude-dir=.git --exclude-dir=DerivedData --exclude-dir=node_modules \
+  --exclude='Secrets.xcconfig' --exclude='check-foundation.sh' \
+  -E 'sb_publishable_[A-Za-z0-9_-]{20,}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]+\.' "$root" >/dev/null; then
   bad "tracked tree looks like it contains a live anon/JWT key"
 else
   ok "no live-looking keys in the working tree scan"
 fi
 
-if command -v xcodebuild >/dev/null 2>&1 && xcodebuild -version >/dev/null 2>&1; then
-  echo "xcodebuild is available; not compiling (needs a simulator destination on a full Xcode install)"
+developer_dir="${DEVELOPER_DIR:-}"
+if [[ -z "$developer_dir" && -d /Applications/Xcode.app/Contents/Developer ]]; then
+  developer_dir="/Applications/Xcode.app/Contents/Developer"
+fi
+if command -v xcodebuild >/dev/null 2>&1 && DEVELOPER_DIR="$developer_dir" xcodebuild -version >/dev/null 2>&1; then
+  echo "xcodebuild is available; run the app build separately for a selected destination"
 else
   echo "skip compile: full Xcode / xcodebuild is not available on this machine"
 fi
